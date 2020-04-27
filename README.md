@@ -104,6 +104,12 @@ react-native link
 ```
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
+and set launchMode to singleTask on the .MainActivity
+```
+<activity
+  android:name=".MainActivity"
+  android:launchMode="singleTask">
+```
 
 ### Manual
 
