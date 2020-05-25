@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.core.content.ContextCompat;
+
 public class MusicControlModule extends ReactContextBaseJavaModule implements ComponentCallbacks2 {
     private static final String TAG = MusicControlModule.class.getSimpleName();
 
@@ -177,7 +179,7 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
         }
         nb = new NotificationCompat.Builder(context, CHANNEL_ID);
         nb.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-         nb.setPriority(NotificationCompat.PRIORITY_HIGH);
+        nb.setPriority(NotificationCompat.PRIORITY_HIGH);
 
         updateNotificationMediaStyle();
 
@@ -198,12 +200,13 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
 
         afListener = new MusicControlAudioFocusListener(context, emitter, volume);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            context.startForegroundService(myIntent);
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//            context.startForegroundService(myIntent);
+//        }
+//        else
+//            context.startService(myIntent);
 
-        }
-        else
-            context.startService(myIntent);
+        ContextCompat.startForegroundService(context, myIntent);
 
         context.registerComponentCallbacks(this);
 
@@ -218,27 +221,30 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
 
         if (notification != null)
             notification.hide();
-        session.release();
 
-        ReactApplicationContext context = getReactApplicationContext();
+        session.setActive(false);
 
-        context.unregisterReceiver(receiver);
-        context.unregisterComponentCallbacks(this);
-
-        if (artworkThread != null && artworkThread.isAlive())
-            artworkThread.interrupt();
-        artworkThread = null;
-
-        session = null;
-        notification = null;
-        volume = null;
-        receiver = null;
-        state = null;
-        md = null;
-        pb = null;
-        nb = null;
-
-        init = false;
+//        session.release();
+//
+//        ReactApplicationContext context = getReactApplicationContext();
+//
+//        context.unregisterReceiver(receiver);
+//        context.unregisterComponentCallbacks(this);
+//
+//        if (artworkThread != null && artworkThread.isAlive())
+//            artworkThread.interrupt();
+//        artworkThread = null;
+//
+//        session = null;
+//        notification = null;
+//        volume = null;
+//        receiver = null;
+//        state = null;
+//        md = null;
+//        pb = null;
+//        nb = null;
+//
+//        init = false;
     }
 
     synchronized public void destroy() {
